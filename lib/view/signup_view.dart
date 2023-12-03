@@ -13,13 +13,13 @@ class SignupView extends ConsumerStatefulWidget {
 }
 
 class _SignupViewState extends ConsumerState<SignupView> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
+ final  FocusNode emailFocusNode = FocusNode();
+ final  FocusNode passwordFocusNode = FocusNode();
 
   @override
   void dispose() {
@@ -37,7 +37,7 @@ class _SignupViewState extends ConsumerState<SignupView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: const Text('Sign Up'),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
@@ -47,24 +47,21 @@ class _SignupViewState extends ConsumerState<SignupView> {
           if (state is SignupInitialState) {
             return signupUI(context);
           }
-
           if (state is SignupLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
-
           if (state is SignupLoadedState) {
             Future.delayed(Duration.zero, () {
               context.go('/home');
             });
           }
-
           if (state is SignupErrorState) {
             return Text(state.message.toString());
           }
 
-          return Text('No state found');
+          return const Text('No state found');
         },
       ),
     );
@@ -90,7 +87,10 @@ class _SignupViewState extends ConsumerState<SignupView> {
             ),
             onFieldSubmitted: (value) {
               Utils.fieldFocusChange(
-                  context, emailFocusNode, passwordFocusNode);
+                context,
+                emailFocusNode,
+                passwordFocusNode,
+              );
             },
           ),
           ValueListenableBuilder(
@@ -104,14 +104,14 @@ class _SignupViewState extends ConsumerState<SignupView> {
                   decoration: InputDecoration(
                     hintText: 'Password',
                     labelText: 'Password',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.lock_clock_rounded,
                     ),
                     suffixIcon: InkWell(
                       onTap: () {
                         _obsecurePassword.value = !_obsecurePassword.value;
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.visibility_off,
                       ),
                     ),
@@ -121,46 +121,35 @@ class _SignupViewState extends ConsumerState<SignupView> {
           SizedBox(
             height: height * 0.1,
           ),
-
           RoundButton(
-              onpressed: () {
-                if (_emailController.text.isEmpty) {
-                  Utils.snackBar('Please enter email', context);
-                } else if (_passwordController.text.isEmpty) {
-                  Utils.snackBar('Please enter password', context);
-                } else if (_passwordController.text.length < 6) {
-                  Utils.snackBar('Please enter 6 digit password', context);
-                } else {
-                  Map data = {
-                    'email': _emailController.text.toString(),
-                    'password': _passwordController.text.toString()
-                  };
-                  ref.read(signUpProvider.notifier).createUser(data);
-                }
-              },
-              text: 'SignUp')
-          // RoundButton(
-          //   title: 'Sign Up',
-          //   // loading: authViewModel.signUpLoading,
-          //   onpress: () {
-          //     if (_emailController.text.isEmpty) {
-          //       Utils.flashBarErrorMessage('Please enter email', context);
-          //     } else if (_passwordController.text.isEmpty) {
-          //       Utils.flashBarErrorMessage('Please enter password', context);
-          //     } else if (_passwordController.text.length < 6) {
-          //       Utils.flashBarErrorMessage(
-          //           'Please enter 6 digit password', context);
-          //     } else {
-          //       Map data = {
-          //         'email': _emailController.text.toString(),
-          //         'password': _passwordController.text.toString()
-          //       };
-          //       authViewModel.registerApi(data, context);
-
-          //       print('-----------user Registered----------');
-          //     }
-          //   },
-          // ),
+            onpressed: () {
+              if (_emailController.text.isEmpty) {
+                Utils.snackBar(
+                  'Please enter email',
+                  context,
+                );
+              } else if (_passwordController.text.isEmpty) {
+                Utils.snackBar(
+                  'Please enter password',
+                  context,
+                );
+              } else if (_passwordController.text.length < 6) {
+                Utils.snackBar(
+                  'Please enter 6 digit password',
+                  context,
+                );
+              } else {
+                Map data = {
+                  'email': _emailController.text.toString(),
+                  'password': _passwordController.text.toString()
+                };
+                ref.read(signUpProvider.notifier).createUser(
+                      data,
+                    );
+              }
+            },
+            text: 'SignUp',
+          )
         ],
       ),
     );

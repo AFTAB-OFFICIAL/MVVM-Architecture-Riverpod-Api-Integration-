@@ -5,13 +5,13 @@ import 'package:riverpod_api_integration/state/post_state.dart';
 import 'package:riverpod_api_integration/utils/utils.dart';
 
 class HomeViewWidget extends ConsumerWidget {
-  HomeViewWidget({super.key});
+  const HomeViewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<PostState>(postProvider, (previousState, newState) {
       // React to changes in the state here
-      print('State changed: $newState');
+
       if (newState is ErrorPostState) {
         Utils.snackBar(newState.message.toString(), context);
       }
@@ -21,7 +21,7 @@ class HomeViewWidget extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.forward),
+          child: const Icon(Icons.forward),
           onPressed: () {
             ref.read(postProvider.notifier).fetchProduct(currentContext);
           },
@@ -37,7 +37,7 @@ class HomeViewWidget extends ConsumerWidget {
               ),
             )
           ],
-          title: Text('Home'),
+          title: const Text('Home'),
           centerTitle: true,
         ),
         body: Center(
@@ -45,19 +45,19 @@ class HomeViewWidget extends ConsumerWidget {
             builder: (context, ref, child) {
               PostState state = ref.watch(postProvider);
               if (state is InitialPostState) {
-                return Text('Please press the button');
+                return const Text('Please press the button');
               }
               if (state is PostLoadingPostState) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
               if (state is ErrorPostState) {
-                return Text('error');
+                return const Text('error');
               }
               if (state is PostLoadedPostState) {
                 return _buildListView(state);
               }
 
-              return Text('State not found');
+              return const Text('State not found');
             },
           ),
         ),

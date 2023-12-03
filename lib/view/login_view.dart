@@ -13,10 +13,10 @@ class LoginView extends ConsumerStatefulWidget {
 }
 
 class _LoginViewState extends ConsumerState<LoginView> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
@@ -40,7 +40,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
@@ -74,7 +74,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             });
           }
 
-          return Text('State not found');
+          return const Text('State not found');
         },
       ),
     );
@@ -112,14 +112,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   labelText: 'Password',
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.lock_clock_rounded,
                   ),
                   suffixIcon: InkWell(
                     onTap: () {
                       _obsecurePassword.value = !_obsecurePassword.value;
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.visibility_off,
                     ),
                   ),
@@ -146,41 +146,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
               }
             },
             text: 'Login'),
-        // RoundButton(
-        //   title: 'Login',
-        //   // loading: authViewModel.loading,
-        //   onpress: () {
-        //     if (_emailController.text.isEmpty) {
-        //       Utils.flashBarErrorMessage('Please enter email', context);
-        //     } else if (_passwordController.text.isEmpty) {
-        //       Utils.flashBarErrorMessage('Please enter password', context);
-        //     } else if (_passwordController.text.length < 6) {
-        //       Utils.flashBarErrorMessage(
-        //           'Please enter 6 digit password', context);
-        //     } else {
-        //       // Map data = {
-        //       //   'email': _emailController.text.toString(),
-        //       //   'password': _passwordController.text.toString()
-        //       // };
-        //       Map data = {
-        //         'email': 'eve.holt@reqres.in',
-        //         'password': 'cityslicka'
-        //       };
-        //       // authViewModel.loginApi(data, context);
-        //       print('APi hit');
-        //     }
-        //   },
-        // ),
-
         SizedBox(
           height: height * 0.02,
         ),
         InkWell(
           onTap: () {
             context.go('/signup');
-            // Navigator.pushNamed(context, RoutesName.signUp);
           },
-          child: Text(
+          child: const Text(
             'Dont have an account? Sign Up',
           ),
         ),
